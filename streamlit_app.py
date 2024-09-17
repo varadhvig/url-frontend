@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import validators
+import pandas as pd  # For handling data as DataFrame
 
 # Set the Heroku URL for the Flask app
 FLASK_URL = "https://vignesh-flask2-d8b64f2c64ed.herokuapp.com"
@@ -68,7 +69,7 @@ def main():
                 except Exception as e:
                     st.error(f"Failed to connect to Flask app: {e}")
 
-    # Retrieve page: Display existing URL mappings
+    # Retrieve page: Display existing URL mappings in a table
     elif menu == "Retrieve":
         st.title("🔍 Retrieve URL Mappings")
         try:
@@ -76,9 +77,14 @@ def main():
             if response.status_code == 200:
                 urls = response.json()
                 if urls:
-                    for url in urls:
-                        short_url = f"{FLASK_URL}/short/{url['short_code']}"
-                        st.write(f"🔗 [Short URL: {short_url}] | Original URL: {url['original_url']} | Clicks: {url['click_count']}")
+                    # Convert the list of URLs to a pandas DataFrame for a nice table view
+                    df = pd.DataFrame(urls)
+                    df['short_url'] = FLASK_URL + '/short/' + df['short_code']
+                    df = df[['short_url', 'original_url', 'click_count']]  # Rearrange columns
+                    df.columns = ['Short URL', 'Original URL', 'Click Count']  # Rename columns
+
+                    # Display the DataFrame as a table
+                    st.dataframe(df)
                 else:
                     st.info("No URL mappings found.")
             else:
