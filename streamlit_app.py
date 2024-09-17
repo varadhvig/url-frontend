@@ -1,25 +1,10 @@
 import streamlit as st
 import requests
 import validators
-import sqlite3
-from pathlib import Path
-import random
 
-# Constants
-TOTAL_COMBINATIONS = 16 ** 7  # 268,435,456 (Maximum combinations of 7-digit hexadecimal)
-
-# Set page config
-st.set_page_config(
-    page_title="🔗 URL Shortener",
-    page_icon="🔗",
-    layout="centered",
-    initial_sidebar_state="collapsed"
-)
-
-# Flask URL (Make sure this is pointing to your Flask app)
+# Set the Heroku URL for the Flask app
 FLASK_URL = "https://vignesh-flask2-d8b64f2c64ed.herokuapp.com"
 
-# Main Streamlit logic
 def main():
     st.markdown("<h1 style='text-align: center;'>🔗 URL Shortener</h1>", unsafe_allow_html=True)
 
@@ -53,8 +38,14 @@ def main():
 
                     if response.status_code == 201:
                         data = response.json()
-                        short_url = data.get("short_url")
-                        st.success(f"Short URL created: {short_url}")
+                        short_code = data.get("short_code")
+                        short_url = f"{FLASK_URL}/short/{short_code}"
+
+                        # If the URL already exists, display a message saying so
+                        if data.get("already_exists"):
+                            st.info(f"This URL has already been shortened: {short_url}")
+                        else:
+                            st.success(f"Short URL created: {short_url}")
                     else:
                         st.error(f"Error: {response.status_code}")
                 except Exception as e:
