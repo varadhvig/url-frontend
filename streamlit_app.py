@@ -10,15 +10,12 @@ FLASK_URL = "https://vignesh-flask2-d8b64f2c64ed.herokuapp.com"
 def display_hex_combinations():
     st.markdown("## Hexadecimal Combinations")
     st.markdown("""
-    In this URL shortener, we generate short codes using hexadecimal characters (0-9, a-f). Each character can be one of 16 values, which gives us a large number of possible combinations.
-    
-    The number of unique combinations we can generate is given by `16^n` where `n` is the number of characters in the short code:
-    """)
+    In this URL shortener, we generate short codes using hexadecimal characters (0-9, a-f). Each character can be one of 16 values, which gives us a large number of possible combinations.""")
     
     st.write(f"**16^7**: {16**7:,} unique combinations (handles up to 268 million URLs)")
     st.write(f"**16^6**: {16**6:,} unique combinations (handles up to 16 million URLs)")
     st.write(f"**16^5**: {16**5:,} unique combinations (handles up to 1 million URLs)")
-    st.write(f"**16^4**: {16**4:,} unique combinations (handles up to 65,536 URLs)")
+    st.write(f"**16^4**: {16**4:,} unique combinations (handles up to 65,536 URLs :) ")
 
 def main():
     st.markdown("<h1 style='text-align: center;'>🔗 URL Shortener</h1>", unsafe_allow_html=True)
