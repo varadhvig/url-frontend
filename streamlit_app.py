@@ -20,8 +20,7 @@ def display_hex_combinations():
 def main():
     st.markdown("<h1 style='text-align: center;'>🔗 URL Shortener</h1>", unsafe_allow_html=True)
 
-    # Display hexadecimal combinations
-    display_hex_combinations()
+    
 
     menu = st.radio(
         "",
@@ -88,6 +87,7 @@ def main():
                 st.error(f"Error fetching URLs: {response.status_code}")
         except Exception as e:
             st.error(f"Failed to connect to Flask app: {e}")
-
+# Display hexadecimal combinations
+    display_hex_combinations()
 if __name__ == "__main__":
     main()
